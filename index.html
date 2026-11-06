@@ -43,8 +43,12 @@ footer a{color:var(--dim);margin-right:14px}
 .draft{background:#fff4d6;border-bottom:1px solid #ecd28a;text-align:center;font-size:13px;padding:6px}
 .legal{max-width:760px}.legal h1{color:var(--acc)}.legal h2{font-size:19px;margin-top:26px}
 @media(max-width:820px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.feat{grid-template-columns:1fr}.pers{grid-template-columns:1fr}}
-@media(max-width:480px){.grid{grid-template-columns:1fr}}
+.sticky{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(0,0,0,.08);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px;text-decoration:none;color:var(--text);font-size:15px}
+.sticky b{color:var(--acc)}.sticky.hide{display:none!important}
+@media(max-width:700px){.sticky{display:flex}body{padding-bottom:72px}}
+@media(max-width:480px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}.card{padding:8px;border-radius:10px}.card h3{font-size:14px}.card p{font-size:12.5px;line-height:1.4}.hero{padding:26px 0 18px}}
 </style></head><body>
+<a class="sticky" id="sticky" href="#kaufen"><span>Handwerker-Mappe <b>19,99&nbsp;€</b></span><span class="btn small">Jetzt holen</span></a>
 <header class="top"><div class="wrap"><a class="logo" href="index.html">Handwerker<span>-</span>Mappe</a>
 <a class="btn small" href="index.html#kaufen">Jetzt holen</a></div></header>
 
@@ -111,6 +115,7 @@ function funnel(step) {
 }
 funnel('1 Seite geöffnet');
 try { const io = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { funnel('1b Preise gesehen'); io.disconnect(); } }, { threshold: 0.3 }); io.observe(document.getElementById('buy')); } catch (e) {}
+try { const st = document.getElementById('sticky'); const io2 = new IntersectionObserver(es => { st.classList.toggle('hide', es.some(x => x.isIntersecting)); }, { threshold: 0 }); io2.observe(document.getElementById('kaufen')); } catch (e) {}
 const $ = id => document.getElementById(id);
 function err(m) { $('err').textContent = m; $('err').style.display = m ? 'block' : 'none'; }
 function daten() { return { name: $('f_name').value.trim(), email: $('f_email').value.trim(), firma: $('f_firma').value.trim(), verzicht: $('f_verzicht').checked }; }
